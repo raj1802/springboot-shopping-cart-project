@@ -2,6 +2,7 @@ package com.dreamcart.dreamshop.controller;
 
 
 import com.dreamcart.dreamshop.dto.ImageDto;
+import com.dreamcart.dreamshop.exception.ResourceNotFoundException;
 import com.dreamcart.dreamshop.model.Image;
 import com.dreamcart.dreamshop.response.ApiResponse;
 import com.dreamcart.dreamshop.service.image.ImageService;
@@ -47,6 +48,35 @@ private final ImageService imageService;
         return  ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" +image.getFileName() + "\"")
                 .body(resource);
+    }
+
+    @PutMapping("/image/{imageId}/update")
+    public ResponseEntity<ApiResponse> updateImage(@PathVariable Long imageId, @RequestBody MultipartFile file) {
+        try {
+            Image image = imageService.getImageById(imageId);
+            if(image != null) {
+                imageService.updateImage(file, imageId);
+                return ResponseEntity.ok(new ApiResponse("Update success!", null));
+            }
+        } catch (ResourceNotFoundException e) {
+            return  ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+        }
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Update failed!", INTERNAL_SERVER_ERROR));
+    }
+
+
+    @DeleteMapping("/image/{imageId}/delete")
+    public ResponseEntity<ApiResponse> deleteImage(@PathVariable Long imageId) {
+        try {
+            Image image = imageService.getImageById(imageId);
+            if(image != null) {
+                imageService.deleteImageById( imageId);
+                return ResponseEntity.ok(new ApiResponse("Delete success!", null));
+            }
+        } catch (ResourceNotFoundException e) {
+            return  ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+        }
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Delete failed!", INTERNAL_SERVER_ERROR));
     }
 
 

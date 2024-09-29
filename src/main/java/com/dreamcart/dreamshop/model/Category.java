@@ -1,9 +1,7 @@
 package com.dreamcart.dreamshop.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,26 +14,19 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-
 @Entity
 public class Category {
-
     @Id
-    @GeneratedValue()
-private Long id;
-private String name;
-private String description;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
 
 
-
-@OneToMany(mappedBy = "category")
-private List<Product> products;
+    @JsonIgnore
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 
     public Category(String name) {
         this.name = name;
     }
-
-
-
 }

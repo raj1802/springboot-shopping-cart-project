@@ -49,12 +49,12 @@ private final CategoryRepository categoryRepository;
     }
 
     @Override
-    public void deleteCategory(Long id) {
-
+    public void deleteCategoryById(Long id) {
         categoryRepository.findById(id)
-                .ifPresentOrElse(categoryRepository::delete,()->{
-                    throw new ResourceNotFoundException("Category not found");
+                .ifPresentOrElse(categoryRepository::delete, () -> {
+                    throw new ResourceNotFoundException("Category not found!");
                 });
 
     }
+
 }
