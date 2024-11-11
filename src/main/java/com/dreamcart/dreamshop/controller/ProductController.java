@@ -2,6 +2,7 @@ package com.dreamcart.dreamshop.controller;
 
 
 import com.dreamcart.dreamshop.dto.ProductDto;
+import com.dreamcart.dreamshop.exception.AlreadyExistsException;
 import com.dreamcart.dreamshop.exception.ResourceNotFoundException;
 import com.dreamcart.dreamshop.model.Product;
 import com.dreamcart.dreamshop.request.AddProductRequest;
@@ -51,7 +52,7 @@ public class ProductController {
             Product theProduct = productService.addProduct(product);
 
             return ResponseEntity.ok(new ApiResponse("Add product success!", theProduct));
-        } catch (Exception e) {
+        } catch (AlreadyExistsException e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
         }
     }
