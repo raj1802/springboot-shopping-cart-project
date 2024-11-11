@@ -1,2 +1,11 @@
-package com.dreamcart.dreamshop.request;public class CreateUserRequest {
+package com.dreamcart.dreamshop.request;
+
+import lombok.Data;
+
+@Data
+public class CreateUserRequest {
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
 }

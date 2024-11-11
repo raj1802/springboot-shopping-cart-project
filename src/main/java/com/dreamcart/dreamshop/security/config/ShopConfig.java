@@ -1,4 +1,4 @@
-package com.dreamcart.dreamshop.config;
+package com.dreamcart.dreamshop.security.config;
 
 
 import org.modelmapper.ModelMapper;
